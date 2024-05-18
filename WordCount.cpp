@@ -5,9 +5,11 @@
 int countCharacters(FILE *file) {// 统计字符数的函数 
     int count = 0;
     char ch;
+    
     while ((ch = fgetc(file)) != EOF) {
         count++;
     }
+    
     return count;
 }
 
@@ -15,12 +17,14 @@ int countWords(FILE *file) {// 统计单词数的函数
     int count = 0;
     int inWord = 0;
     char ch;
+    
     // 要是遇到空格、换行或制表符的话就不记录单词 
+    
     while ((ch = fgetc(file)) != EOF) {
         if (ch == ' ' || ch == '\n' || ch == '\t') {
             inWord = 0;
         } else if (inWord == 0) {
-            inWord = 1;
+            inWord = 1;// 进入新单词
             count++;
         }
     }
@@ -37,16 +41,19 @@ int main(int argc, char *argv[]) {
     char *filename = argv[2];//得到文件名 
 
     FILE *file = fopen(filename, "r");// 打开文件
+    
     if (file == NULL) {
         printf("Error opening file\n");
         return 1;
     }
-
+    
+    int count=0;//count用来统计字符数或单词数 
+	 
     if (strcmp(option, "-c") == 0) {
-        int count = countCharacters(file);
+        count = countCharacters(file);//调用统计字符数函数 
         printf("字符数：%d\n", count);
     } else if (strcmp(option, "-w") == 0) {
-        int count = countWords(file);
+        count = countWords(file);//调用统计单词数函数 
         printf("单词数：%d\n", count);
     } else {
         printf("Invalid option\n");
